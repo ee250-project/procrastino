@@ -1,39 +1,37 @@
+import { useState } from 'react';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
 import './App.css';
+import StopWatch from './StopWatch';
 
 function Hello() {
+  const [input, setInput] = useState('');
+  const [isStarted, setIsStarted] = useState(false);
+
+  const handleStart = () => {
+    setIsStarted(true);
+  };
+
   return (
-    <div>
-      <div className="Hello">
-        <img width="200" alt="icon" src={icon} />
+    <div id="container">
+      <div id="navbar">
+        <div>ProcrastiNO</div>
+        <div>API Key</div>
       </div>
-      <h1>electron-react-boilerplate!!</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="folded hands">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
+      <div id="main">
+        <h1>What are you working on today?</h1>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        {!isStarted && (
+          <div className="Hello">
+            <button type="button" onClick={handleStart}>
+              Start!
+            </button>
+          </div>
+        )}
+        {isStarted && <StopWatch />}
       </div>
     </div>
   );

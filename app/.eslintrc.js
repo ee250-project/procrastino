@@ -13,6 +13,8 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'error',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    'prettier/prettier': 'off',
+    'react/self-closing-comp': 'off',
   },
   parserOptions: {
     ecmaVersion: 2022,

@@ -1,0 +1,36 @@
+.stopwatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.time-display {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls button {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007AFF;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.controls button:hover {
+  background-color: #0056b3;
+}
+
+.controls button:active {
+  transform: scale(0.98);
+}
