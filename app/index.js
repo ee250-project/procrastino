@@ -41,7 +41,7 @@ async function takeScreenshot() {
   }
 }
 
-// timer start/stop
+// timer start/stop and take screenshots
 let timerInterval;
 let seconds = 0;
 let isRunning = false;
@@ -68,9 +68,11 @@ startButton.addEventListener('click', () => {
         timerInterval = setInterval(() => {
           seconds++;
           updateDisplay();
+
+          new Notification("ProcrastiNO", { body: "hello" })
         }, 1000);
         // take screenshot every 5 seconds
-        screenshotInterval = setInterval(takeScreenshot, 5000);
+        screenshotInterval = setInterval(takeScreenshot, 2000);
     }
 });
 

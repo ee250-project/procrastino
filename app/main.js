@@ -1,4 +1,5 @@
 const { app, BrowserWindow, desktopCapturer, session } = require('electron')
+const { Notification } = require('electron')
 
 const path = require('path') 
 const env = process.env.NODE_ENV || 'development';
@@ -11,8 +12,8 @@ if (env === 'development') {
 
 const createWindow = () => {
     const win = new BrowserWindow({
-        width: 800,
-        height: 600
+        width: 1000,
+        height: 700
     })
 
     session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
@@ -21,7 +22,6 @@ const createWindow = () => {
           callback({ video: sources[0] })
         })
     })
-    
 
     win.loadFile('index.html')
     win.webContents.openDevTools()
@@ -29,5 +29,4 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
     createWindow();
-    
 })
