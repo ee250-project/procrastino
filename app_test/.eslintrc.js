@@ -15,6 +15,8 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     'prettier/prettier': 'off',
     'react/self-closing-comp': 'off',
+    'promise/catch-or-return': 'off',
+    'promise/always-return': 'off',
   },
   parserOptions: {
     ecmaVersion: 2022,

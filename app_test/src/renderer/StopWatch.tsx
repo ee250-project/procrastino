@@ -5,6 +5,8 @@ export default function StopWatch() {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
 
+  const { desktopCapturer } = window.require('electron');
+
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval>;
 
@@ -33,6 +35,12 @@ export default function StopWatch() {
     setIsRunning(!isRunning);
   };
 
+  const takeScreenshot = async () => {
+    desktopCapturer.getSources({ types: ['screen'] }).then((sources) => {
+      console.log(sources[0].thumbnail.toDataURL());
+    });
+  };
+
   return (
     <div className="stopwatch">
       <div className="time-display">{formatTime(time)}</div>
@@ -41,7 +49,10 @@ export default function StopWatch() {
           I&apos;m done!
         </button>
       </div>
-      <div id="screenshot-button"></div>
+      <button id="screenshot-button" onClick={takeScreenshot}>
+        snap
+      </button>
+      <img id="screenshot-image" />
     </div>
   );
 }
