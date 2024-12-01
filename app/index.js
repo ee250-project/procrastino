@@ -41,6 +41,29 @@ async function takeScreenshot() {
   }
 }
 
+// process screenshot
+async function processScreen() {
+  // take screenshot
+  await takeScreenshot();
+
+  try {
+    let response = await window.api.processScreenshot(screenshotImage.src);
+    response = JSON.parse(response);
+
+    console.log('Response type:', typeof response);
+
+    if (response.procrastinating === true) {
+      console.log('Procrastinating!!!!');
+      new Notification("ProcrastiNO", { body: response.warning });
+    }
+
+    console.log('OpenAI Response:', response);
+    // Handle the response as needed
+  } catch (error) {
+      console.error('Error processing screenshot:', error);
+  }
+}
+
 // timer start/stop and take screenshots
 let timerInterval;
 let seconds = 0;
@@ -68,11 +91,9 @@ startButton.addEventListener('click', () => {
         timerInterval = setInterval(() => {
           seconds++;
           updateDisplay();
-
-          new Notification("ProcrastiNO", { body: "hello" })
         }, 1000);
-        // take screenshot every 5 seconds
-        screenshotInterval = setInterval(takeScreenshot, 2000);
+        // take screenshot every 10 seconds
+        screenshotInterval = setInterval(processScreen, 10000);
     }
 });
 

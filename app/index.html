@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' https://cdn.jsdelivr.net">
     <title>ProcrastiNO</title>
     <link rel="stylesheet" href="index.css">
   </head>
@@ -12,7 +12,7 @@
       <!-- Navbar -->
       <div id="navbar">
         <div>ProcrastiNO</div>
-        <div>API Key</div>
+        <!-- <div>API Key</div> -->
       </div>
       
       <!-- Main Content -->
@@ -33,6 +33,6 @@
 
     <img id="screenshot-image" src="" />
 
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
   </body>
 </html>
