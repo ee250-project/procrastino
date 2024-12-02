@@ -13,7 +13,7 @@ import grovepi
 from grove_rgb_lcd import *
 
 # MQTT setup
-BROKER = "broker.hivemq.com"  # Use a public MQTT broker
+BROKER = "broker.hivemq.com"  # public MQTT broker
 PORT = 1883
 TOPIC = "ultrasonic/sensor"
 
@@ -58,8 +58,6 @@ if __name__ == '__main__':
             # Prepare data in JSON format
             data = {
                 "distance": distance,
-                "threshold": threshold,
-                "unit": "cm"
             }
             json_data = json.dumps(data)
 
