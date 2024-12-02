@@ -38,7 +38,7 @@ const openai = new OpenAI({
 });
 
 // Handle OpenAI API calls from renderer
-ipcMain.handle('process-screenshot', async (event, imageData) => {
+ipcMain.handle('process-screenshot', async (event, imageData, inputText) => {
     try {
         // Remove the data URL prefix to get just the base64 data
         const base64Image = imageData.replace(/^data:image\/[a-z]+;base64,/, '');
@@ -48,7 +48,7 @@ ipcMain.handle('process-screenshot', async (event, imageData) => {
             messages: [
                 {
                     role: "system",
-                    content: "The user claims that they are coding. Your job is to look at a screenshot of the user's screen and decide if that user is actually coding or doing something related to coding. They are procrastinating if and only if they are doing something ENTIRELY unrelated to coding. The user may have a timer app called 'ProcrastiNO' opened, and it has a pink gradient background. If you see this, DO NOT count it as procrastinating. The user IS NOT procrastinating if they have this app open." 
+                    content: "The user is asked what they are working on today on their computer. Here is their answer: " + inputText + ". Your job is to look at a screenshot of the user's screen and decide if that user is actually working on what they said they are working on. They are procrastinating if and only if they are doing something ENTIRELY unrelated to what they are working on. The user may have a timer app called 'ProcrastiNO' opened, and it has a pink gradient background. If you see this, DO NOT count it as procrastinating. The user IS NOT procrastinating if they have this app open." 
                 },
                 {
                     role: "user",
@@ -74,7 +74,7 @@ ipcMain.handle('process-screenshot', async (event, imageData) => {
                                 type: "boolean"
                             },
                             warning: {
-                                description: "A gentle and short warning message to the user, if and only ifthey are procrastinating. Otherwise, don't say anything.",
+                                description: "A gentle and short warning message to the user, if and only if they are procrastinating. Otherwise, don't say anything.",
                                 type: "string"
                             }
                         },

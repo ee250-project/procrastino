@@ -47,7 +47,8 @@ async function processScreen() {
   await takeScreenshot();
 
   try {
-    let response = await window.api.processScreenshot(screenshotImage.src);
+    const inputText = document.getElementById('user-input').value;
+    let response = await window.api.processScreenshot(screenshotImage.src, inputText);
     response = JSON.parse(response);
 
     console.log('Response type:', typeof response);
