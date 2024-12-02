@@ -13,7 +13,7 @@ import grovepi
 from grove_rgb_lcd import *
 
 # MQTT setup
-BROKER = "broker.hivemq.com"  # Use a public MQTT broker or your own
+BROKER = "broker.hivemq.com"  # Use a public MQTT broker
 PORT = 1883
 TOPIC = "ultrasonic/sensor"
 
@@ -46,7 +46,7 @@ if __name__ == '__main__':
             if distance < threshold:
                 setRGB(255, 0, 0)
                 count = 1
-                setText_norefresh(str(int(threshold)) + "cm OBJ PRES\n" + str(distance) + "cm")
+                setText_norefresh(str(int(threshold)) + "cm Too close\n" + str(distance) + "cm")
             elif distance > threshold and count == 1:
                 setRGB(0, 255, 0)
                 setText(str(int(threshold)) + "cm\n" + str(distance) + "cm")
@@ -67,7 +67,7 @@ if __name__ == '__main__':
             client.publish(TOPIC, json_data)
             print(f"Published: {json_data}")
 
-            # Sleep for a reasonable time to prevent sensor noise
+            # Sleep to prevent sensor noise
             time.sleep(0.2)
 
         except KeyboardInterrupt:
