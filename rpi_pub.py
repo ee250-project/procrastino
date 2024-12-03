@@ -12,6 +12,8 @@ sys.path.append('Software/Python/grove_rgb_lcd')
 import grovepi
 from grove_rgb_lcd import *
 
+print("program started")
+
 # MQTT setup
 BROKER = "broker.hivemq.com"  # public MQTT broker
 PORT = 1883
