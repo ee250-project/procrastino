@@ -5,9 +5,9 @@ import paho.mqtt.client as mqtt
 
 # By appending the folder of all the GrovePi libraries to the system path here,
 # we are successfully `import grovepi`
-sys.path.append('../../Software/Python/')
+sys.path.append('Software/Python/')
 # This append is to support importing the LCD library.
-sys.path.append('../../Software/Python/grove_rgb_lcd')
+sys.path.append('Software/Python/grove_rgb_lcd')
 
 import grovepi
 from grove_rgb_lcd import *
