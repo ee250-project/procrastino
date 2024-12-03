@@ -37,6 +37,8 @@ if __name__ == '__main__':
     count = 0
 
     while True:
+        
+        print("while loop started")
         try:
             # Read distance value from Ultrasonic and potentiometer
             distance = grovepi.ultrasonicRead(ultrasonic_ranger)
