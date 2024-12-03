@@ -12,7 +12,6 @@ sys.path.append('Software/Python/grove_rgb_lcd')
 import grovepi
 from grove_rgb_lcd import *
 
-print("program started")
 
 # MQTT setup
 BROKER = "broker.hivemq.com"  # public MQTT broker
@@ -22,7 +21,11 @@ TOPIC = "ultrasonic/sensor"
 client = mqtt.Client()
 client.connect(BROKER, PORT, 60)
 
+print("program started")
+
 if __name__ == '__main__':
+    print("main started")
+    
     ultrasonic_ranger = 4
     potentiometer = 0
 
