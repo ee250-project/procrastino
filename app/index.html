@@ -29,9 +29,27 @@
           </div>
         </div>
       </div>
+
+      <div id="results-modal" class="modal">
+        <div class="modal-content">
+          <div>Here are your results!</div>
+
+          <div>You were present for</div>
+          <div id="total-present"></div>
+          <div>But you were gone for</div>
+          <div id="total-absent"></div>
+          <div>And you got caught procrastinating</div>
+          <div id="procrast-count"></div>
+
+          <div id="total-time-container">Total time elapsed: <span id="total-time"></span></div>
+
+          <button id="modal-ok-button">Okay!</button>
+
+        </div>
+      </div>
     </div>
 
-    <img id="screenshot-image" src="" />
+    <div id="screenshot-container"><img id="screenshot-image" src=""/></div>
 
     <script type="module" src="index.js"></script>
   </body>

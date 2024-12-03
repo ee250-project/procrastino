@@ -1,5 +1,6 @@
 const { app, BrowserWindow, desktopCapturer, session, ipcMain } = require('electron')
 const OpenAI = require('openai')
+const mqtt = require('mqtt')
 require('dotenv').config()
 
 const path = require('path') 
@@ -90,6 +91,55 @@ ipcMain.handle('process-screenshot', async (event, imageData, inputText) => {
     }
 });
 
+// MQTT Client setup
+const MQTT_BROKER = 'broker.hivemq.com'
+const MQTT_PORT = 1883
+const MQTT_TOPIC = 'ultrasonic/sensor'
+
+let mqttClient
+function setupMQTT() {
+    mqttClient = mqtt.connect(`mqtt://${MQTT_BROKER}:${MQTT_PORT}`)
+    
+    mqttClient.on('connect', () => {
+        console.log('Connected to MQTT broker')
+        mqttClient.subscribe(MQTT_TOPIC, (err) => {
+            if (err) {
+                console.error('Error subscribing to topic:', err)
+                return
+            }
+            console.log(`Subscribed to topic: ${MQTT_TOPIC}`)
+        })
+    })
+
+    mqttClient.on('message', (topic, message) => {
+        console.log(`Received message on topic ${topic}:`, message.toString())
+        // Forward MQTT messages to renderer process
+        BrowserWindow.getAllWindows().forEach(window => {
+            window.webContents.send('mqtt-message', message.toString())
+        })
+    })
+
+    mqttClient.on('error', (err) => {
+        console.error('MQTT Error:', err)
+    })
+}
+
 app.whenReady().then(() => {
-    createWindow();
+    createWindow()
+    setupMQTT()
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow()
+        }
+    })
+})
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        if (mqttClient) {
+            mqttClient.end()
+        }
+        app.quit()
+    }
 })

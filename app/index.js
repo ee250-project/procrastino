@@ -48,7 +48,7 @@ async function processScreen() {
 
   try {
     const inputText = document.getElementById('user-input').value;
-    let response = await window.api.processScreenshot(screenshotImage.src, inputText);
+    let response = await window.electronAPI.processScreenshot(screenshotImage.src, inputText);
     response = JSON.parse(response);
 
     console.log('Response type:', typeof response);
@@ -56,6 +56,7 @@ async function processScreen() {
     if (response.procrastinating === true) {
       console.log('Procrastinating!!!!');
       new Notification("ProcrastiNO", { body: response.warning });
+      procrastCount++;
     }
 
     console.log('OpenAI Response:', response);
@@ -69,11 +70,22 @@ async function processScreen() {
 let timerInterval;
 let seconds = 0;
 let isRunning = false;
+let mqttData = []; // Array to store MQTT data
+let mqttListener = null;
+let procrastCount = 0;
+const THRESHOLD = 30;
 
 const timerSection = document.getElementById('timer-section');
 const timerDisplay = document.getElementById('timer-display');
 const startButton = document.getElementById('start-button');
 const stopButton = document.getElementById('stop-button');
+const resultsModal = document.getElementById('results-modal');
+const totalTimeElement = document.getElementById('total-time');
+const totalPresentElement = document.getElementById('total-present');
+const totalAbsentElement = document.getElementById('total-absent');
+const procrastCountElement = document.getElementById('procrast-count');
+const modalOkButton = document.getElementById('modal-ok-button');
+
 
 function updateDisplay() {
     const hours = Math.floor(seconds / 3600);
@@ -85,13 +97,27 @@ function updateDisplay() {
 
 startButton.addEventListener('click', () => {
     if (!isRunning) {
+        seconds = 0; // Reset the timer
+        updateDisplay();
         isRunning = true;
         startButton.style.display = 'none';
         stopButton.style.display = 'block';
         timerSection.style.display = 'inline-block';
+        mqttData = []; // Reset MQTT data array
+        procrastCount = 0;
+        
+        // Start collecting MQTT data
+        mqttListener = (data) => {
+            if (isRunning) {
+                mqttData.push(JSON.parse(data).distance);
+                console.log(mqttData);
+            }
+        };
+        window.electronAPI.onMqttMessage(mqttListener);
+
         timerInterval = setInterval(() => {
-          seconds++;
-          updateDisplay();
+            seconds++;
+            updateDisplay();
         }, 1000);
         // take screenshot every 10 seconds
         screenshotInterval = setInterval(processScreen, 10000);
@@ -101,10 +127,46 @@ startButton.addEventListener('click', () => {
 stopButton.addEventListener('click', () => {
     if (isRunning) {
         isRunning = false;
+        updateDisplay(); // Update the display to show 00:00:00
         startButton.style.display = 'block';
         stopButton.style.display = 'none';
         timerSection.style.display = 'none';
         clearInterval(timerInterval);
         clearInterval(screenshotInterval);
+
+        // Stop collecting MQTT data
+        if (mqttListener) {
+            window.electronAPI.removeMqttListener(mqttListener);
+            mqttListener = null;
+        }
+
+        // TEST DATA, DELETE LATER. (20:10)
+        mqttData = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400];
+
+        // Process MQTT data
+        console.log(`Total time elapsed: ${seconds} seconds`);
+        const unitTime = seconds / mqttData.length;
+        const totalTime = seconds;
+        let totalPresent = 0, totalAbsent = 0;
+        for (let i = 0; i < mqttData.length; i++) {
+            if (mqttData[i] > THRESHOLD) 
+                totalAbsent += unitTime;
+            else 
+                totalPresent += unitTime;
+        }
+        totalAbsent = Math.round(totalAbsent);
+        totalPresent = Math.round(totalPresent);
+
+        // update values in modal
+        totalTimeElement.textContent = `${totalTime} s`;
+        totalPresentElement.textContent = `${totalPresent} s`;
+        totalAbsentElement.textContent = `${totalAbsent} s`;
+        procrastCountElement.textContent = `${procrastCount} times`;
+        
+        resultsModal.style.display = 'block';
     }
+});
+
+modalOkButton.addEventListener('click', () => {
+  resultsModal.style.display = 'none';
 });

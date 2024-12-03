@@ -132,7 +132,7 @@ a:hover {
     justify-content: center;
 }
 
-#start-button, #stop-button {
+#start-button, #stop-button, #modal-ok-button {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
@@ -141,12 +141,12 @@ a:hover {
     transition: background-color 0.3s;
 }
 
-#start-button {
+#start-button, #modal-ok-button {
     background-color: #4CAF50;
     color: white;
 }
 
-#start-button:hover {
+#start-button:hover, #modal-ok-button:hover {
     background-color: #45a049;
 }
 
@@ -157,4 +157,53 @@ a:hover {
 
 #stop-button:hover {
     background-color: #da190b;
+}
+
+#screenshot-container {
+  display: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  padding: 40px;
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  min-width: 300px;
+  color: white;
+}
+
+.modal-content > div:first-child {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+#total-present, #total-absent, #procrast-count {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 10px 0 20px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+#total-time-container {
+  margin-top: 40px;
+  margin-bottom: 30px;
 }
