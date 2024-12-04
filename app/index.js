@@ -73,7 +73,7 @@ let isRunning = false;
 let mqttData = []; // Array to store MQTT data
 let mqttListener = null;
 let procrastCount = 0;
-const THRESHOLD = 30;
+const THRESHOLD = 80;
 
 const timerSection = document.getElementById('timer-section');
 const timerDisplay = document.getElementById('timer-display');
@@ -139,9 +139,6 @@ stopButton.addEventListener('click', () => {
             window.electronAPI.removeMqttListener(mqttListener);
             mqttListener = null;
         }
-
-        // TEST DATA, DELETE LATER. (20:10)
-        mqttData = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400];
 
         // Process MQTT data
         console.log(`Total time elapsed: ${seconds} seconds`);
