@@ -9,5 +9,4 @@ How it works:
 4. When you are done working, the app gives you a breakdown of your productivity, such as how much time you spent in front of the computer, how much time you spent away from the computer, and how many times you got caught procrastinating.
 
 Below shows the components of the app:
-
-
+<img width="416" alt="Screenshot 2025-01-05 at 10 57 34 AM" src="https://github.com/user-attachments/assets/c0ae843a-60da-4830-b1e5-83aef1161e7f" />
